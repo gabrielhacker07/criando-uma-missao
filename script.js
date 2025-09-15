@@ -3,6 +3,7 @@ const caixaPerguntas = document.querySelector(".caixa-perguntas");
 const caixaAlternativas = document.querySelector(".caixa-alternativas");
 const caixaResultado = document.querySelector(".caixa-resultado");
 const textoResultado = document.querySelector(".texto-resultado");
+const botaoReiniciar = document.querySelector(".botao-reiniciar");
 
 const perguntas = [
     {
@@ -10,7 +11,7 @@ const perguntas = [
         alternativas: [
             {
                 texto: "Isso é assustador!",
-                afirmacao: "No início ficou com medo do que essa tecnologia pode fazer. "
+                afirmacao: "No início ficou com medo do que essa tecnologia pode fazer."
             },
             {
                 texto: "Isso é maravilhoso!",
@@ -66,12 +67,11 @@ const perguntas = [
             },
             {
                 texto: "O chat pode ser uma tecnologia muito avançada, mas é preciso manter a atenção pois toda máquina erra, por isso revisar o trabalho e contribuir com as perspectivas pessoais é essencial.",
-                afirmacao: "Percebeu que toda IA reproduz orientações baseadas na empresa que programou e muito do que o chat escrevia não refletia o que pensava e por isso sabe que os textos gerados pela IA devem servir como auxílio e não resultado final. "
+                afirmacao: "Percebeu que toda IA reproduz orientações baseadas na empresa que programou e muito do que o chat escrevia não refletia o que pensava e por isso sabe que os textos gerados pela IA devem servir como auxílio e não resultado final."
             }
         ]
     },
 ];
-
 
 let atual = 0;
 let perguntaAtual;
@@ -88,8 +88,8 @@ function mostraPergunta() {
     mostraAlternativas();
 }
 
-function mostraAlternativas(){
-    for(const alternativa of perguntaAtual.alternativas) {
+function mostraAlternativas() {
+    for (const alternativa of perguntaAtual.alternativas) {
         const botaoAlternativas = document.createElement("button");
         botaoAlternativas.textContent = alternativa.texto;
         botaoAlternativas.addEventListener("click", () => respostaSelecionada(alternativa));
@@ -108,6 +108,25 @@ function mostraResultado() {
     caixaPerguntas.textContent = "Em 2049...";
     textoResultado.textContent = historiaFinal;
     caixaAlternativas.textContent = "";
+    
+    // Adiciona botão de reiniciar se não existir
+    if (!document.querySelector(".botao-reiniciar")) {
+        const botaoReiniciar = document.createElement("button");
+        botaoReiniciar.textContent = "Reiniciar Quiz";
+        botaoReiniciar.className = "botao-reiniciar";
+        botaoReiniciar.addEventListener("click", reiniciarQuiz);
+        caixaAlternativas.appendChild(botaoReiniciar);
+    }
 }
 
-mostraPergunta();
+function reiniciarQuiz() {
+    atual = 0;
+    historiaFinal = "";
+    mostraPergunta();
+    caixaResultado.style.display = "none";
+}
+
+// Inicia o quiz quando a página carrega
+document.addEventListener("DOMContentLoaded", function() {
+    mostraPergunta();
+});
